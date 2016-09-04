@@ -16,7 +16,10 @@ import org.kohsuke.github._
 
 case class Credentials(user: String, token: String)
 
-sealed trait GithubSettings
+sealed trait GithubSettings {
+  def credentials: Credentials
+}
+
 case class   PublicGithubSettings(credentials: Credentials)                     extends GithubSettings
 case class   EnterpriseGithubSettings(apiUrl: String, credentials: Credentials) extends GithubSettings
 
