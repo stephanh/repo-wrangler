@@ -142,7 +142,7 @@ object Github {
     baseBranch:  String
   ): Error[UpdateStatus] = for {
     path   <- safe(Files.createTempDirectory("automator_")).map(_.toAbsolutePath)
-    url     = s"${repo.gitHttpTransportUrl}"
+    url     = repo.gitHttpTransportUrl.replace("://", s"://${credentials.user}:${credentials.token}")
     _      <- safeShellOut(List("git", "clone", "--quiet", "--single-branch", "--depth", "1", "--branch", baseBranch, url, path.toString), true, Option(credentials.token))
     _      <- safeShellOut(List("git", "--git-dir", s"${path}/.git", "checkout", "-b", branch)).map(_.mkString(""))
     result <- shellOut(List(scriptPath, repo.getFullName), false, path.toString)
