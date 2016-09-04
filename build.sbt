@@ -20,6 +20,8 @@ scalacOptions ++= Seq(
   "-target:jvm-1.8"
 )
 
+resolvers += "Jenkins" at "https://repo.jenkins-ci.org/releases"
+
 libraryDependencies ++= Seq(
   "org.scalaz"       %% "scalaz-core" % "7.2.5",
   "org.kohsuke"       % "github-api"  % "1.77",
