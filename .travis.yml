@@ -1,15 +1,22 @@
 language: scala
 jdk:
-  - oraclejdk7
+- oraclejdk7
 sudo: required
 services:
-  - docker
+- docker
 cache:
   directories:
   - $HOME/.ivy2
   - $HOME/.m2
 install:
-  - curl https://commbank.artifactoryonline.com/commbank/binaries/ci/ci-3.3.0-20160817231550-75d3c9c.tar.gz | tar xz
-  - ci/setup-version.sh sbt
+- curl https://commbank.artifactoryonline.com/commbank/binaries/ci/ci-3.3.0-20160817231550-75d3c9c.tar.gz | tar xz
+- ci/setup-version.sh sbt
+- ci/ci-release.sh docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
 script:
-  - sbt package docker:publishLocal
+- sbt package docker:publishLocal
+env:
+  global:
+  - secure: Xb8SRHiUqIXWwT8NiwBMEIpfAwleW7HfHIV9H8iBjx64CrkLO64w5mEbdcfRpbUd9UgaiC6L4HB4IPEaxjKvw4t3mKkemeAd4Z8H7K1ePA1aIscSB9sIc5rcqayTSJ/Lls81le0DiCtbHp3ZdzHtMv+sKDno+SF/VWEMnBse8FGCbs/UEQgacVI6tV+XmE3gsS3DPi1mPp8/BQARxLePKZCJkJdPoACWWlbdBoXl7uQyO6Lfl+iE+5+TSh+X+Qh9ZhCxWW9Do4YQoPwJ5bvRLiQt+vmuQFxBq8fpJyfF8a5qvk603rG8PWQnkFfpSuV9v6bo5JBmiN5IvwmjnflMFs6CCXmjHhNSQY+s13XhFywg/y0KHYW60yfJxrLVXSX+33a7u+P+EBSTnJjQWBgWgyhIolHLSPJE/dleMy0cyyAqPweBI8oxwjCWwcm6dOYu4SL1ykwxMudYOwi/yOrW900q+TXIGGXNN8dBbd0J9D2O11eBVQgHyfL/E8YWj4tR5RY4W8Sxuch7e372MgfiH5C5VBDxGyRTa5z3AxU3maSZCDkYV9MdX5R7Dk/24nuVRv02JyCUYbmC62r0+nRfzgAGBFlJzi4bBiTMfeM4YbcKZF2N5uQfcX4asxdXqpkk2A3tOFCLp3/vZ2+anxTYYKi5RDNtkwLKxSNkQDTqgbY=
+  - secure: RNjAMn3aoi5Fl2KQP1OKH1YVo+tS1MroAom2P/2AjQlE/aa2PfAh4fdhC2k7RvDnNZBhJk94ZTXqLk/8GuoTb9kfH9vtDvHs+REDggbJIUnmulEEmiiW8Fm7rl/TG70LH/Rutvisfz/aO1COiqXnNDvCqK623PLiSPtc7aGInr+Ds/22YK7xUM8Ny8Km/8EDpiEw51ACnJtE14mKysyOboKDQ/w3YaP0rCDFbe3J0QnQ4DArdO4EV5iCGtc88lmvac8T8+TGJuZZBxucNxfGx0mx5DDUkBigYuUNP8difFn0uh/o1GV/hvA7mZFSCTuq2Bh92lATvBUdbO4EqEQaSPGGyzAEJh842JJyOblTw/oCci84dN2C6I0HEyZJJSgWJG9AQO+qmO/i3N07LblFsR5NwEs97eiOgQXWBeEUh1Xo5jcsC0EE8Z6PFwVq7nL3cI2PoKwRXoOTbrw9mj7fnQkJ4HEdBwIuPJ85HKpPEaiNNjFWlbe33mNLa+XYsyog9rtAMDYLhdf49v/sN+0azm8KE9nhqyo6ET5St5IRkGUjPjylMuroQfnSOvprunBl86UoRar7nQK8viBq40/Ru9U90kUJR84EW7iYk9SwrU0d+qcxzZSND/FspBcAj4eqBXT6FSjBz/6Zq0bXCZ16xLtIgep/Qh8I0HLSavwPN2M=
+  - secure: iWWUwOUu9gERIwsrSvFbxOQRXv2NYvDPN9HGTZ7I3qRQE2pSyqBZBLFs4UBxxXFihc2W+F7ScnTBqKs/8oH3qBVpAYnGlal224osh+BGZC/pzQUceawRtPAsLP5U1DIm/C0n2jg90ra/fhQjPGPBhpSvdb8v8J8TY/xj7hZlGtd5jdLtKGjFZARUfTwjsQ/PAghiqwUolP016ITnEXCJM/T9xORJ3nqzcduGaYPC8nAvXfzrvd9I4XBUDA4mKzVwo2YwEz62imsS3SMBKcCXlSylwXgnFGktzfFUpi0uLf0bpod0zHFjT/63Mz2mAXHNcEdIcho3zwyRniYr2746gg0tycANYoE8t7H0b6pM+tJQXzXaGMhToOjX6J2YJpGd8192YdcuI/Kt5LmUyfdEZQaBiIwQwzlJfbk5WlmmpkAWhlxwkrFwxpNLxBVKvBIRIYuysyq/3kW2D8U2ONglgyQGYmaxqCMzfazJ0Wbz3yQ1rSHhGWngukp+G+c5c667ONUKxo9iduEcUlTqx/g2bXBET5KD6pOQWJdDwRNFVLgdtpXYvhW550yqODg50kJxgX/JyX4Rp9iuWHqet7mE7h/S4mAm/gBybYBuLs8QmzyL8kgwPpIlwf5QKNmgwMqdfBO38HPFNahYrGEhJsFxjp430/OniaaAJ4+tRRsSijs=
+b
