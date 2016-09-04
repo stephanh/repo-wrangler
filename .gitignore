@@ -1,0 +1,11 @@
+/project/target
+/project/project/target
+/project/source.scala
+target
+metastore_db
+derby.log
+.idea
+.idea_modules
+.ensime
+.ensime_cache
+

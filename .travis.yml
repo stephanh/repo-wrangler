@@ -1,0 +1,11 @@
+language: scala
+jdk:
+  - oraclejdk7
+sudo: false
+cache:
+  directories:
+  - $HOME/.ivy2
+  - $HOME/.m2
+install:
+  - curl https://commbank.artifactoryonline.com/commbank/binaries/ci/ci-3.3.0-20160817231550-75d3c9c.tar.gz | tar xz
+  - sbt package docker:publishLocal
