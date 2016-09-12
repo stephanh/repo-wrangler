@@ -113,7 +113,7 @@ object Github {
     val status = s"""#Automator Status:\n${msgs.mkString("\n")}"""
 
     results.find(_._2.isLeft).cata(
-      _ => new Exception(s"Some updates faile:\n$status").left,
+      _ => new Exception(s"Some updates failed:\n$status").left,
       status.right
     )
   }
@@ -144,8 +144,8 @@ object Github {
     prMessage:   String,
     baseBranch:  String
   ): Error[UpdateStatus] = for {
-    path   <- safe(Files.createTempDirectory("automator_")).map(_.toAbsolutePath)
-    url     = repo.gitHttpTransportUrl.replace("://", s"://${credentials.user}:${credentials.token}")
+    path   <- safe(Files.createTempDirectory(s"""automator_${repo.getFullName.replace("/", "_")}_""")).map(_.toAbsolutePath)
+    url     = repo.gitHttpTransportUrl.replace("://", s"://${credentials.user}:${credentials.token}@")
     _      <- safeShellOut(List("git", "clone", "--quiet", "--single-branch", "--depth", "1", "--branch", baseBranch, url, path.toString), true, Option(credentials.token))
     _      <- safeShellOut(List("git", "--git-dir", s"${path}/.git", "checkout", "-b", branch)).map(_.mkString(""))
     result <- shellOut(List(scriptPath, repo.getFullName), false, path.toString)
@@ -173,8 +173,8 @@ object Github {
       }
     )
 
-    val proc = Process(cmd, new File(workDir)).run(cmdLogger)
-    (proc.exitValue, output.toList)
+    val exitValue = Process(cmd, new File(workDir)) ! cmdLogger
+    (exitValue, output.toList)
   }
 
   def safeShellOut(cmd: List[String], quiet: Boolean = true, sensitive: Option[String] = None): Error[List[String]] =
