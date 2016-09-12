@@ -1,3 +1,4 @@
+[![Docker](http://dockeri.co/image/stephanh/repo-wrangler)](https://hub.docker.com/r/stephanh/repo-wrangler/)
 [![Build Status](https://travis-ci.org/stephanh/repo-wrangler.svg?branch=master)](https://travis-ci.org/stephanh/repo-wrangler)
 
 # Repo Wrangler
