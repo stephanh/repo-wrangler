@@ -31,6 +31,7 @@ libraryDependencies ++= Seq(
 enablePlugins(JavaAppPackaging)
 enablePlugins(DockerPlugin)
 
+dockerRepository := Option("stephanh")
 
 dockerBaseImage := "openjdk:8-jre"
 dockerCommands ++= List(
