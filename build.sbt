@@ -32,6 +32,7 @@ enablePlugins(JavaAppPackaging)
 enablePlugins(DockerPlugin)
 
 dockerRepository := Option("stephanh")
+dockerUpdateLatest := true
 
 dockerBaseImage := "openjdk:8-jre"
 dockerCommands ++= List(
